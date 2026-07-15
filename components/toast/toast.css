@@ -1,0 +1,71 @@
+/**
+ * ==========================================
+ * QEDEV Framework
+ * Toast Component
+ * ==========================================
+ */
+
+.qedev-toast {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+
+  min-width: 300px;
+  max-width: 420px;
+
+  padding: var(--space-md);
+
+  background: var(--color-surface);
+
+  border-radius: var(--radius-lg);
+
+  box-shadow: var(--shadow-lg);
+
+  z-index: var(--z-toast);
+
+  animation: slideUp var(--transition-fast);
+}
+
+.qedev-toast-content {
+  flex: 1;
+}
+
+.qedev-toast-title {
+  font-weight: var(--font-weight-semibold);
+}
+
+.qedev-toast-message {
+  margin-top: 4px;
+  color: var(--color-text-light);
+}
+
+.qedev-toast-success {
+  border-left: 4px solid var(--color-success);
+}
+
+.qedev-toast-error {
+  border-left: 4px solid var(--color-danger);
+}
+
+.qedev-toast-warning {
+  border-left: 4px solid var(--color-warning);
+}
+
+.qedev-toast-info {
+  border-left: 4px solid var(--color-info);
+}
+
+@media (max-width: 768px) {
+  .qedev-toast {
+    left: 16px;
+    right: 16px;
+
+    min-width: auto;
+
+    max-width: none;
+  }
+}

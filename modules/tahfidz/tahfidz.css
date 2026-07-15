@@ -1,0 +1,549 @@
+/* ==========================================================
+   PAGE HEADER
+========================================================== */
+
+.btq-page-header {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 6px;
+
+  margin-bottom: 20px;
+}
+
+.btq-page-title {
+  font-size: 24px;
+  font-weight: 700;
+
+  color: #111827;
+
+  line-height: 1.2;
+}
+
+.btq-page-subtitle {
+  font-size: 14px;
+
+  color: #6b7280;
+}
+
+/* ==========================================================
+   SUMMARY
+========================================================== */
+
+.btq-summary {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  margin-bottom: 24px;
+}
+
+.btq-summary-icon {
+  width: 42px;
+
+  height: 42px;
+
+  border-radius: 12px;
+
+  background: #ecfdf3;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 20px;
+}
+
+.btq-summary-content {
+  display: flex;
+
+  align-items: baseline;
+
+  gap: 6px;
+
+  font-size: 15px;
+
+  color: #374151;
+}
+
+.btq-summary-content strong {
+  font-size: 24px;
+
+  font-weight: 700;
+
+  color: #16a34a;
+}
+
+/* ==========================================================
+   SCHEDULE LIST
+========================================================== */
+
+.btq-schedule-list {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 16px;
+}
+
+/* ==========================================================
+   BTQ
+========================================================== */
+
+.btq {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+}
+
+/* ==========================================================
+   CARD
+========================================================== */
+
+.btq-schedule-card {
+  background: #fff;
+
+  border: 1px solid #e5e7eb;
+
+  border-radius: 16px;
+
+  padding: 16px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 14px;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+  padding: 18px;
+
+  transition: all 0.25s ease;
+}
+
+.btq-schedule-card:hover {
+  border-color: var(--primary-color);
+
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  transform: translateY(-2px);
+}
+
+/* ==========================================================
+   TOP
+========================================================== */
+
+.btq-schedule-top {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: flex-start;
+}
+
+.btq-schedule-title {
+  display: flex;
+
+  gap: 12px;
+
+  align-items: flex-start;
+}
+
+.btq-schedule-icon {
+  width: 44px;
+
+  height: 44px;
+
+  border-radius: 12px;
+
+  background: #ecfdf3;
+
+  color: #16a34a;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 20px;
+}
+
+.btq-schedule-class {
+  font-size: 16px;
+
+  font-weight: 700;
+
+  color: #111827;
+}
+
+.btq-schedule-time {
+  margin-top: 4px;
+
+  font-size: 13px;
+
+  color: #6b7280;
+}
+
+/* ==========================================================
+   PROGRESS
+========================================================== */
+
+.btq-schedule-progress {
+  font-size: 15px;
+
+  font-weight: 700;
+
+  color: #16a34a;
+}
+
+/* ==========================================================
+   MIDDLE
+========================================================== */
+
+.btq-schedule-middle {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+}
+
+.btq-schedule-students {
+  font-size: 14px;
+
+  color: #374151;
+}
+
+.btq-schedule-status {
+  font-size: 13px;
+
+  font-weight: 600;
+
+  color: #6b7280;
+}
+
+/* ==========================================================
+   FOOTER
+========================================================== */
+
+.btq-schedule-footer {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+}
+
+.btq-progress {
+  flex: 1;
+
+  height: 6px;
+
+  border-radius: 999px;
+
+  background: #e5e7eb;
+
+  overflow: hidden;
+}
+
+.btq-progress-bar {
+  height: 100%;
+
+  border-radius: 999px;
+
+  background: #16a34a;
+}
+
+.btq-schedule-arrow {
+  color: #9ca3af;
+
+  font-size: 16px;
+}
+
+/* ==========================================================
+   EMPTY
+========================================================== */
+
+.btq-empty {
+  text-align: center;
+
+  padding: 48px 24px;
+
+  color: #6b7280;
+}
+
+/* ==========================================================
+   STUDENT HEADER
+========================================================== */
+
+.btq-student-header {
+  display: flex;
+
+  align-items: center;
+
+  gap: 16px;
+
+  margin-bottom: 20px;
+}
+
+.btq-back-button {
+  width: 42px;
+
+  height: 42px;
+
+  border: none;
+
+  border-radius: 12px;
+
+  background: #f3f4f6;
+
+  color: #374151;
+
+  cursor: pointer;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  transition: 0.2s;
+}
+
+.btq-back-button:hover {
+  background: #e5e7eb;
+}
+
+.btq-student-header-content {
+  flex: 1;
+}
+
+.btq-student-title {
+  font-size: 24px;
+
+  font-weight: 700;
+
+  color: #111827;
+
+  line-height: 1.2;
+}
+
+.btq-student-subtitle {
+  margin-top: 4px;
+
+  font-size: 14px;
+
+  color: #6b7280;
+}
+
+.btq-divider {
+  margin: 0 8px;
+}
+
+/* ==========================================================
+   STUDENT HEADER
+========================================================== */
+
+.btq-student-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.btq-student-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.btq-back-button {
+  width: 44px;
+  height: 44px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: #f3f4f6;
+
+  color: #374151;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 18px;
+
+  transition: 0.2s;
+}
+
+.btq-back-button:hover {
+  background: #e5e7eb;
+}
+
+.btq-student-header-content {
+  flex: 1;
+}
+
+.btq-student-title {
+  font-size: 30px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.btq-student-subtitle {
+  margin-top: 4px;
+
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.btq-divider {
+  margin: 0 8px;
+}
+
+/* ==========================================================
+   SEARCH
+========================================================== */
+
+.btq-search {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 12px 16px;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+
+  background: #ffffff;
+}
+
+.btq-search i {
+  color: #9ca3af;
+}
+
+.btq-search input {
+  flex: 1;
+
+  border: none;
+  outline: none;
+
+  font-size: 15px;
+  background: transparent;
+}
+
+/* ==========================================================
+   STUDENT LIST
+========================================================== */
+
+.btq-student-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ==========================================================
+   STUDENT CARD
+========================================================== */
+
+.btq-student-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 16px;
+
+  background: #ffffff;
+
+  border: 1px solid #e5e7eb;
+
+  border-radius: 16px;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.btq-student-card:hover {
+  border-color: var(--primary-color);
+
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+.btq-student-left {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+
+  flex: 1;
+}
+
+.btq-student-status {
+  width: 28px;
+  display: flex;
+  justify-content: center;
+
+  font-size: 22px;
+}
+
+.btq-student-status .fa-circle-check {
+  color: #16a34a;
+}
+
+.btq-student-status .fa-circle {
+  color: #d1d5db;
+}
+
+.btq-student-name {
+  font-size: 17px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.btq-student-target {
+  margin-top: 4px;
+
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.btq-student-target span {
+  color: #16a34a;
+  font-weight: 600;
+}
+
+.btq-student-arrow {
+  color: #9ca3af;
+  font-size: 18px;
+}
+
+/* ==========================================================
+   FOOTER
+========================================================== */
+
+.btq-student-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 6px 2px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  color: #16a34a;
+}
+
+.btq-student-footer i {
+  font-size: 15px;
+}

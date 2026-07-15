@@ -1,0 +1,132 @@
+/**
+ * ==========================================
+ * QEDEV Framework
+ * Bottom Navigation
+ * ==========================================
+ */
+
+/* ==========================================
+ * Navbar
+ * ========================================== */
+
+.qedev-navbar-container {
+  position: fixed;
+
+  left: 50%;
+  bottom: 0;
+
+  transform: translateX(-50%);
+
+  width: 100%;
+  max-width: var(--app-max-width);
+
+  height: var(--navbar-height);
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  padding: 0 var(--container-padding);
+
+  background: var(--color-surface);
+
+  border-top: 1px solid var(--color-border);
+
+  box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.04);
+
+  z-index: var(--z-sticky);
+}
+
+/* ==========================================
+ * Item
+ * ========================================== */
+
+.qedev-navbar-item {
+  flex: 1;
+
+  height: 100%;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  align-items: center;
+
+  gap: 4px;
+
+  color: var(--color-text-light);
+
+  transition: var(--transition-fast);
+
+  position: relative;
+}
+
+/* ==========================================
+ * Active Indicator
+ * ========================================== */
+
+.qedev-navbar-item.active::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  width: 36px;
+
+  height: 3px;
+
+  border-radius: var(--radius-full);
+
+  background: var(--color-primary);
+}
+
+/* ==========================================
+ * Active
+ * ========================================== */
+
+.qedev-navbar-item.active {
+  color: var(--color-primary);
+}
+
+/* ==========================================
+ * Hover
+ * ========================================== */
+
+.qedev-navbar-item:hover {
+  color: var(--color-primary);
+}
+
+/* ==========================================
+ * Icon
+ * ========================================== */
+
+.qedev-navbar-item i {
+  font-size: 20px;
+}
+
+/* ==========================================
+ * Label
+ * ========================================== */
+
+.qedev-navbar-item span {
+  font-size: var(--font-size-xs);
+
+  font-weight: var(--font-weight-medium);
+}
+
+/* ==========================================
+ * Focus
+ * ========================================== */
+
+.qedev-navbar-item:focus {
+  outline: none;
+}

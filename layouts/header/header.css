@@ -1,0 +1,156 @@
+/**
+ * ==========================================
+ * QEDEV Framework
+ * Header Component
+ * ==========================================
+ */
+
+/* ==========================================
+ * Header
+ * ========================================== */
+
+.qedev-header-container {
+  position: fixed;
+
+  top: 0;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  width: 100%;
+  max-width: var(--app-max-width);
+
+  height: var(--header-height);
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  padding: 0 var(--container-padding);
+
+  background: var(--header-background);
+
+  z-index: var(--z-sticky);
+
+  transition: var(--transition-fast);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+/* ==========================================
+ * Brand
+ * ========================================== */
+
+/* ==========================================
+ * Left
+ * ========================================== */
+
+.qedev-header-left {
+  display: flex;
+
+  align-items: center;
+
+  gap: var(--space-md);
+
+  flex: 1;
+
+  min-width: 0;
+}
+
+/* ==========================================
+ * Logo
+ * ========================================== */
+
+.qedev-header-logo {
+  width: 48px;
+
+  height: 48px;
+
+  flex-shrink: 0;
+
+  object-fit: contain;
+}
+
+/* ==========================================
+ * Information
+ * ========================================== */
+
+.qedev-header-info {
+  display: flex;
+
+  flex-direction: column;
+
+  overflow: hidden;
+}
+
+/* ==========================================
+ * Title
+ * ========================================== */
+
+.qedev-header-title {
+  font-size: var(--font-size-md);
+
+  font-weight: var(--font-weight-bold);
+
+  color: var(--header-text);
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+/* ==========================================
+ * School
+ * ========================================== */
+
+.qedev-header-school {
+  font-size: var(--font-size-xs);
+
+  color: rgba(255, 255, 255, 0.85);
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+.qedev-header-notification {
+  width: 40px;
+
+  height: 40px;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  border-radius: var(--radius-full);
+
+  transition: var(--transition-fast);
+}
+
+/* ==========================================
+ * Hover
+ * ========================================== */
+
+.qedev-header-notification:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.qedev-header-notification i {
+  font-size: 18px;
+
+  color: var(--header-text);
+}
+/* ==========================================
+ * Scrolled
+ * ========================================== */
+
+.qedev-header-container.qedev-header-scrolled {
+  box-shadow: var(--shadow-md);
+}
