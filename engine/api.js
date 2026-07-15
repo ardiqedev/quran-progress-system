@@ -1,39 +1,40 @@
 /**
  * ==========================================
  * QEDEV Engine
- * API Engine
+ * API Engine V2 (Google Apps Script)
  * ==========================================
  */
 
 const API = (() => {
   /**
+   * ==========================================
    * Base URL
+   * ==========================================
    */
   let baseUrl = CONFIG.API_URL;
 
   /**
-   * Default Headers
-   */
-  const DEFAULT_HEADERS = {
-    "Content-Type": "application/json",
-  };
-
-  /**
+   * ==========================================
    * Set Base URL
+   * ==========================================
    */
   function setBaseUrl(url) {
     baseUrl = url || "";
   }
 
   /**
+   * ==========================================
    * Get Base URL
+   * ==========================================
    */
   function getBaseUrl() {
     return baseUrl;
   }
 
   /**
+   * ==========================================
    * Build GET URL
+   * ==========================================
    */
   function buildUrl(action, params = {}) {
     const url = new URL(baseUrl);
@@ -50,13 +51,17 @@ const API = (() => {
   }
 
   /**
+   * ==========================================
    * Core Request
+   * ==========================================
    */
   async function request(method, action, data = {}) {
     if (!baseUrl) {
       return {
         success: false,
+
         message: "API Base URL belum diset.",
+
         data: null,
       };
     }
@@ -64,41 +69,43 @@ const API = (() => {
     try {
       const options = {
         method,
-        headers: DEFAULT_HEADERS,
       };
 
-      if (method !== "GET") {
-        options.body = JSON.stringify({
-          action,
-          data,
-        });
+      let url = baseUrl;
+
+      if (method === "GET") {
+        url = buildUrl(action, data);
+      } else {
+        const form = new URLSearchParams();
+
+        form.append("action", action);
+
+        form.append("payload", JSON.stringify(data));
+
+        options.body = form;
       }
 
-      const url = method === "GET" ? buildUrl(action, data) : baseUrl;
+      if (CONFIG.DEBUG) {
+        console.log("[API] URL :", url);
 
-      console.log("[API] URL :", url);
-      console.log("[API] METHOD :", method);
-      console.log("[API] BODY :", options.body);
+        console.log("[API] METHOD :", method);
+
+        console.log("[API] BODY :", options.body);
+      }
 
       const response = await fetch(url, options);
 
       if (!response.ok) {
         return {
           success: false,
+
           message: `HTTP Error (${response.status})`,
+
           data: null,
         };
       }
 
-      try {
-        return await response.json();
-      } catch {
-        return {
-          success: false,
-          message: "Invalid JSON Response",
-          data: null,
-        };
-      }
+      return await response.json();
     } catch (error) {
       if (CONFIG.DEBUG) {
         console.error("[API]", error);
@@ -106,21 +113,27 @@ const API = (() => {
 
       return {
         success: false,
-        message: "Network Error",
+
+        message: error.message,
+
         data: null,
       };
     }
   }
 
   /**
-   * GET Request
+   * ==========================================
+   * GET
+   * ==========================================
    */
   function get(action, params = {}) {
     return request("GET", action, params);
   }
 
   /**
-   * POST Request
+   * ==========================================
+   * POST
+   * ==========================================
    */
   function post(action, data = {}) {
     return request("POST", action, data);
