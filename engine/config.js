@@ -17,7 +17,7 @@ const CONFIG = Object.freeze({
   DEBUG: true,
 
   API_URL:
-    "https://script.google.com/macros/s/AKfycbxhxprYH5C9vHBL4szXsRSLvG2djvDDLIHnoDCvqUGSq2wPFeOwrlI0VEe4ncFvbUay/exec",
+    "https://script.google.com/macros/s/AKfycbzq2CFrWJptVGILXurx8EsSDTypjixrIzGzv3jR0p7BncG3MK51StBymDPkK3yQLlOp/exec",
 
   DEFAULT_ROUTE: "home",
 
