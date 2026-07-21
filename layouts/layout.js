@@ -11,28 +11,32 @@ const Layout = (() => {
   /**
    * Render Layout
    */
-  function render() {
+  function render(options = {}) {
+    const { header = true, navbar = true } = options;
+
     return `
     <div class="qedev-layout">
 
-      ${Header.render()}
+      ${header ? Header.render() : ""}
 
       <main
         id="qedev-main"
         class="qedev-main">
       </main>
 
-      ${Navbar.render()}
+      ${navbar ? Navbar.render() : ""}
 
       ${Loading.render()}
+      ${Toast.render()}
 
     </div>
   `;
   }
+
   /**
    * Initialize Layout
    */
-  function init() {
+  function init(options = {}) {
     container = document.getElementById("app");
 
     if (!container) {
@@ -40,7 +44,14 @@ const Layout = (() => {
       return;
     }
 
-    container.innerHTML = render();
+    container.innerHTML = render(options);
+    console.log("=== Layout Render ===");
+
+    if (options.navbar) {
+      Navbar.bindEvents();
+
+      Navbar.updateActive();
+    }
   }
 
   /**

@@ -11,10 +11,13 @@ const Auth = (() => {
   /**
    * Login User
    */
-  function login(user) {
+
+  function login(user, remember = false) {
     if (!user || typeof user !== "object") {
       return false;
     }
+
+    void remember;
 
     Storage.set(STORAGE_KEY, user);
 

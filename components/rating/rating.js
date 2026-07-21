@@ -12,13 +12,7 @@ const Rating = (() => {
    * ==========================================
    */
 
-  let SCORE = {
-    1: 60,
-    2: 70,
-    3: 80,
-    4: 90,
-    5: 100,
-  };
+  let SCORE = {};
 
   let onChange = null;
   /**
@@ -159,6 +153,8 @@ const Rating = (() => {
    */
 
   function update(container, value) {
+    const score = getScore(value);
+
     container.querySelectorAll(".qedev-star").forEach((star) => {
       star.classList.toggle(
         "active",
@@ -167,8 +163,7 @@ const Rating = (() => {
       );
     });
 
-    container.querySelector(".qedev-rating-score strong").textContent =
-      getScore(value);
+    container.querySelector(".qedev-rating-score strong").textContent = score;
 
     if (typeof onChange === "function") {
       onChange(
@@ -176,7 +171,7 @@ const Rating = (() => {
 
         value,
 
-        getScore(value),
+        score,
       );
     }
   }
@@ -203,6 +198,20 @@ const Rating = (() => {
 
   /**
    * ==========================================
+   * Get Star By Score
+   * ==========================================
+   */
+
+  function getStarByScore(score) {
+    const item = Object.entries(SCORE).find(
+      ([, value]) => Number(value) === Number(score),
+    );
+
+    return item ? Number(item[0]) : 5;
+  }
+
+  /**
+   * ==========================================
    * Get Value
    * ==========================================
    */
@@ -219,6 +228,8 @@ const Rating = (() => {
     setMapping,
 
     getScore,
+
+    getStarByScore,
 
     getStar,
 

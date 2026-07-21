@@ -12,6 +12,8 @@ const Button = (() => {
 
       type: "primary",
 
+      buttonType: "button", // <-- Tambahkan ini
+
       icon: "",
 
       className: "",
@@ -26,7 +28,7 @@ const Button = (() => {
 
     return `
       <button
-        type="button"
+        type="${options.buttonType}"
         class="qedev-button qedev-button-${options.type} ${options.className}"
         ${options.attributes}>
 

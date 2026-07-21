@@ -32,7 +32,7 @@
     <!-- ======================================
          Base CSS
     ======================================= -->
-
+    <link rel="stylesheet" href="modules/login/login.css" />
     <link rel="stylesheet" href="base/variables.css" />
     <link rel="stylesheet" href="base/base.css" />
     <link rel="stylesheet" href="base/utilities.css" />
@@ -51,13 +51,14 @@
     <link rel="stylesheet" href="components/table/table.css" />
     <link rel="stylesheet" href="components/pagination/pagination.css" />
     <link rel="stylesheet" href="components/empty/empty.css" />
-    <link rel="stylesheet" href="components/loading/loading.css" />
     <link rel="stylesheet" href="components/toast/toast.css" />
+    <link rel="stylesheet" href="components/loading/loading.css" />
     <link rel="stylesheet" href="components/modal/modal.css" />
     <link rel="stylesheet" href="components/confirm/confirm.css" />
     <link rel="stylesheet" href="components/launcher/launcher.css" />
     <link rel="stylesheet" href="components/bottom-sheet/bottom-sheet.css" />
     <link rel="stylesheet" href="components/rating/rating.css" />
+    <link rel="stylesheet" href="components/skeleton/skeleton.css" />
 
     <!-- ======================================
          Layout
@@ -73,6 +74,7 @@
 
     <link rel="stylesheet" href="modules/home/home.css" />
     <link rel="stylesheet" href="modules/btq/btq.css" />
+    <link rel="stylesheet" href="modules/rekap/rekap.css" />
   </head>
 
   <body>
@@ -107,8 +109,9 @@
     <script src="components/table/table.js"></script>
     <script src="components/pagination/pagination.js"></script>
     <script src="components/empty/empty.js"></script>
-    <script src="components/loading/loading.js"></script>
     <script src="components/toast/toast.js"></script>
+    <script src="components/loading/loading.js"></script>
+    <script src="components/skeleton/skeleton.js"></script>
     <script src="components/modal/modal.js"></script>
     <script src="components/confirm/confirm.js"></script>
     <script src="components/launcher/launcher.js"></script>
@@ -132,6 +135,15 @@
     <script src="modules/home/home.view.js"></script>
 
     <!-- ======================================
+     Login
+     ====================================== -->
+
+    <script src="modules/login/login.validator.js"></script>
+    <script src="modules/login/login.service.js"></script>
+    <script src="modules/login/login.view.js"></script>
+    <script src="modules/login/login.js"></script>
+
+    <!-- ======================================
      BTQ
 ====================================== -->
 
@@ -149,30 +161,18 @@
      Tahfidz
      ====================================== -->
 
-    <script src="modules/tahfidz/dummy.tahfidz.js"></script>
     <script src="modules/tahfidz/tahfidz.helper.js"></script>
     <script src="modules/tahfidz/tahfidz.view.js"></script>
     <script src="modules/tahfidz/tahfidz.service.js"></script>
-
     <script src="modules/tahfidz/tahfidz.js"></script>
 
     <!-- ======================================
-         Modules
-    ======================================= -->
-
-    <!-- Dashboard -->
-    <!-- Login -->
-    <!-- BTQ -->
-    <!-- Tahfidz -->
-    <!-- Rekap -->
-    <!-- Hasil -->
-    <!-- Target -->
-    <!-- Profil -->
-
-    <!-- ======================================
-         DUMMY
-    ======================================= -->
-    <script src="dummy/home.js"></script>
+     Rekap
+     ====================================== -->
+    <script src="modules/rekap/rekap.helper.js"></script>
+    <script src="modules/rekap/rekap.view.js"></script>
+    <script src="modules/rekap/rekap.service.js"></script>
+    <script src="modules/rekap/rekap.js"></script>
 
     <!-- ======================================
          Bootstrap

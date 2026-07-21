@@ -6,19 +6,22 @@
  */
 
 const HomeService = (() => {
-  /**
-   * Get Home Data
-   */
   async function getHome() {
-    console.log("[HomeService] getHome()");
+    const user = Auth.getUser();
+
+    if (!user) {
+      throw new Error("User belum login.");
+    }
 
     const response = await API.post("home", {
-      guruId: "G001",
+      guruId: user.id,
     });
 
-    console.log(response);
+    if (!response.success) {
+      throw new Error(response.message);
+    }
 
-    return response;
+    return response.data;
   }
 
   return {

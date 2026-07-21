@@ -11,25 +11,32 @@ const Home = (() => {
    * Initialize Module
    * ==========================================
    */
+
   async function init() {
     try {
-      Loading.show();
+      /**
+       * Render Skeleton
+       */
+      Layout.setContent(Skeleton.render("home"));
 
-      const response = await HomeService.getHome();
+      /**
+       * Get Workspace
+       */
+      const workspace = await HomeService.getHome();
 
-      if (!response.success) {
-        Toast.error(response.message || "Gagal memuat data Home.");
+      /**
+       * Save Workspace
+       */
+      State.set("workspace", workspace);
 
-        return;
-      }
-
-      Layout.setContent(HomeView.render(response.data));
+      /**
+       * Render Home
+       */
+      Layout.setContent(HomeView.render(workspace));
     } catch (error) {
       console.error(error);
 
       Toast.error(error.message || "Terjadi kesalahan.");
-    } finally {
-      Loading.hide();
     }
   }
 

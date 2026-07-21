@@ -34,7 +34,13 @@ const Loading = (() => {
 
           <div class="qedev-loading-message">
 
-            Loading...
+              Loading...
+
+          </div>
+
+          <div class="qedev-loading-subtitle">
+
+              Mohon tunggu sebentar...
 
           </div>
 

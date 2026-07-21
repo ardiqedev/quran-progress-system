@@ -119,12 +119,12 @@
 
   flex-direction: column;
 
-  gap: 14px;
+  gap: 10px;
 
   cursor: pointer;
 
   transition: 0.2s;
-  padding: 18px;
+  padding: 16px;
 
   transition: all 0.25s ease;
 }
@@ -157,9 +157,9 @@
 }
 
 .btq-schedule-icon {
-  width: 44px;
+  width: 40px;
 
-  height: 44px;
+  height: 40px;
 
   border-radius: 12px;
 
@@ -197,37 +197,37 @@
 ========================================================== */
 
 .btq-schedule-progress {
-  font-size: 15px;
+  display: flex;
 
-  font-weight: 700;
+  align-items: center;
+
+  justify-content: center;
+
+  min-width: 56px;
+
+  height: 30px;
+
+  padding: 0 12px;
+
+  border-radius: 999px;
+
+  background: #ecfdf3;
 
   color: #16a34a;
+
+  font-size: 14px;
+
+  font-weight: 700;
 }
 
 /* ==========================================================
    MIDDLE
 ========================================================== */
 
-.btq-schedule-middle {
-  display: flex;
-
-  justify-content: space-between;
-
-  align-items: center;
-}
-
 .btq-schedule-students {
   font-size: 14px;
 
   color: #374151;
-}
-
-.btq-schedule-status {
-  font-size: 13px;
-
-  font-weight: 600;
-
-  color: #6b7280;
 }
 
 /* ==========================================================
@@ -237,35 +237,23 @@
 .btq-schedule-footer {
   display: flex;
 
+  justify-content: space-between;
+
   align-items: center;
-
-  gap: 12px;
-}
-
-.btq-progress {
-  flex: 1;
-
-  height: 6px;
-
-  border-radius: 999px;
-
-  background: #e5e7eb;
-
-  overflow: hidden;
-}
-
-.btq-progress-bar {
-  height: 100%;
-
-  border-radius: 999px;
-
-  background: #16a34a;
 }
 
 .btq-schedule-arrow {
+  font-size: 18px;
+
   color: #9ca3af;
 
-  font-size: 16px;
+  transition: 0.25s;
+}
+
+.btq-schedule-card:hover .btq-schedule-arrow {
+  transform: translateX(4px);
+
+  color: var(--primary-color);
 }
 
 /* ==========================================================
@@ -546,4 +534,24 @@
 
 .btq-student-footer i {
   font-size: 15px;
+}
+
+.btq-student-group-title {
+  margin: 20px 4px 12px;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  color: var(--qedev-primary);
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.5px;
+}
+
+.btq-student-divider {
+  margin: 20px 0;
+
+  border-top: 1px dashed #dcdcdc;
 }

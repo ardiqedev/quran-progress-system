@@ -17,9 +17,9 @@ const CONFIG = Object.freeze({
   DEBUG: true,
 
   API_URL:
-    "https://script.google.com/macros/s/AKfycbzq2CFrWJptVGILXurx8EsSDTypjixrIzGzv3jR0p7BncG3MK51StBymDPkK3yQLlOp/exec",
+    "https://script.google.com/macros/s/AKfycbzhIGC2QG-s72SVBpOqj-odw9GnXm3ZnjSAVZ9XfHY_nk3C2LSmrEFkkgAinENxeeZC/exec",
 
-  DEFAULT_ROUTE: "home",
+  DEFAULT_ROUTE: "login",
 
   STORAGE_PREFIX: "QPS",
 

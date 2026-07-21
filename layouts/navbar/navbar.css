@@ -36,7 +36,7 @@
 
   box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.04);
 
-  z-index: var(--z-sticky);
+  z-index: var(--z-navbar);
 }
 
 /* ==========================================
@@ -63,6 +63,12 @@
   transition: var(--transition-fast);
 
   position: relative;
+
+  cursor: pointer;
+
+  border: none;
+
+  background: transparent;
 }
 
 /* ==========================================
@@ -103,6 +109,10 @@
 
 .qedev-navbar-item:hover {
   color: var(--color-primary);
+}
+
+.qedev-navbar-item:active {
+  transform: scale(0.96);
 }
 
 /* ==========================================

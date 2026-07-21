@@ -10,12 +10,24 @@ const Bootstrap = (() => {
    * Initialize Application
    */
   function init() {
-    Layout.init();
+    initializeApplication();
 
-    Router.init();
     Launcher.bindEvents();
 
     App.init();
+  }
+
+  Form.init();
+
+  /**
+   * Initialize Application Flow
+   */
+  function initializeApplication() {
+    if (Auth.isAuthenticated()) {
+      Router.navigate("home");
+    } else {
+      Router.navigate("login");
+    }
   }
 
   return {

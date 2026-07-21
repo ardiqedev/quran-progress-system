@@ -21,6 +21,8 @@ const BTQ = (() => {
 
     studentList: [],
 
+    filteredStudents: [],
+
     selectedSchedule: null,
 
     selectedStudent: null,
@@ -83,6 +85,7 @@ const BTQ = (() => {
     eventBound = true;
 
     document.addEventListener("click", handleClick);
+    document.addEventListener("input", handleInput);
 
     Rating.bindEvents(handleRatingChange);
     Rating.setOnChange(updateAssessment);
@@ -95,6 +98,13 @@ const BTQ = (() => {
    */
 
   function handleClick(e) {
+    const back = e.target.closest(".btq-back-button");
+
+    if (back) {
+      showSchedule();
+
+      return;
+    }
     const schedule = e.target.closest(".btq-schedule-card");
 
     if (schedule) {
@@ -121,6 +131,12 @@ const BTQ = (() => {
       }
 
       return;
+    }
+  }
+
+  function handleInput(e) {
+    if (e.target.matches("#btq-search")) {
+      searchStudent(e.target.value);
     }
   }
 
@@ -194,24 +210,11 @@ const BTQ = (() => {
   function showSchedule() {
     state.currentView = "schedule";
 
+    state.selectedSchedule = null;
+
+    state.selectedStudent = null;
+
     renderSchedules();
-  }
-
-  /**
-   * ============================================================
-   * LOAD SANTRI
-   * ============================================================
-   */
-
-  async function loadStudents(classId) {
-    const response = await BTQService.getStudentsByClass(classId);
-
-    if (!response.success) {
-      console.error(response.message);
-      return;
-    }
-
-    state.studentList = response.data;
   }
 
   /**
@@ -227,7 +230,7 @@ const BTQ = (() => {
 
     body.innerHTML = window.BTQView.renderStudentPage(
       state.selectedSchedule,
-      state.studentList,
+      state.filteredStudents,
     );
   }
 
@@ -237,10 +240,18 @@ const BTQ = (() => {
    * ============================================================
    */
 
-  async function selectClass(schedule) {
+  function selectClass(schedule) {
     state.selectedSchedule = schedule;
 
-    await loadStudents(schedule.classId);
+    const workspace = State.get("workspace");
+
+    const students = workspace.students.filter(
+      (student) => student.classId === schedule.classId,
+    );
+
+    state.studentList = students;
+
+    state.filteredStudents = [...students];
 
     showStudents();
   }
@@ -251,18 +262,141 @@ const BTQ = (() => {
    * ============================================================
    */
 
-  function selectStudent(student) {
+  function searchStudent(keyword) {
+    keyword = keyword.trim().toLowerCase();
+
+    if (!keyword) {
+      state.filteredStudents = [...state.studentList];
+
+      console.log(state.filteredStudents);
+
+      renderStudents();
+
+      return;
+    }
+
+    state.filteredStudents = state.studentList.filter((student) => {
+      return student.name.toLowerCase().includes(keyword);
+    });
+
+    console.log(state.filteredStudents);
+
+    renderStudents();
+  }
+
+  /**
+   * ============================================================
+   * PILIH SANTRI
+   * ============================================================
+   */
+
+  async function selectStudent(student) {
     state.selectedStudent = student;
 
-    state.assessment = BTQHelper.createAssessment();
+    // ==========================================
+    // SUDAH DINILAI
+    // ==========================================
 
-    BTQHelper.updateResult(
-      state.assessment,
+    if (student.assessed) {
+      const response = await BTQService.getAssessment(student.transactionId);
 
-      state.masterPredikat,
-    );
+      if (response.success) {
+        state.assessment = {
+          fashohah: {
+            star: Rating.getStarByScore(response.data.fashohah),
+
+            score: response.data.fashohah,
+          },
+
+          tajwid: {
+            star: Rating.getStarByScore(response.data.tajwid),
+
+            score: response.data.tajwid,
+          },
+
+          wazan: {
+            star: Rating.getStarByScore(response.data.wazan),
+
+            score: response.data.wazan,
+          },
+
+          average: response.data.average,
+
+          grade: response.data.grade,
+
+          description: response.data.description,
+
+          note: response.data.note || "",
+        };
+      }
+    }
+
+    // ==========================================
+    // BELUM DINILAI
+    // ==========================================
+    else {
+      state.assessment = BTQHelper.createAssessment();
+
+      BTQHelper.updateResult(
+        state.assessment,
+
+        state.masterPredikat,
+      );
+    }
 
     openAssessmentModal();
+  }
+
+  /**
+   * ============================================================
+   * UPDATE STUDENT STATE
+   * ============================================================
+   */
+
+  function updateStudentState(student) {
+    // ==========================================
+    // Workspace
+    // ==========================================
+
+    const workspace = State.get("workspace");
+
+    const workspaceStudent = workspace.students.find(
+      (item) => item.id === student.id,
+    );
+
+    if (workspaceStudent) {
+      Object.assign(workspaceStudent, student);
+
+      workspaceStudent.assessed = true;
+    }
+
+    // ==========================================
+    // Student List
+    // ==========================================
+
+    const listStudent = state.studentList.find(
+      (item) => item.id === student.id,
+    );
+
+    if (listStudent) {
+      Object.assign(listStudent, student);
+
+      listStudent.assessed = true;
+    }
+
+    // ==========================================
+    // Filtered Student
+    // ==========================================
+
+    const filteredStudent = state.filteredStudents.find(
+      (item) => item.id === student.id,
+    );
+
+    if (filteredStudent) {
+      Object.assign(filteredStudent, student);
+
+      filteredStudent.assessed = true;
+    }
   }
 
   /**
@@ -272,16 +406,85 @@ const BTQ = (() => {
    */
 
   async function saveAssessment(payload) {
-    const response = await BTQService.saveAssessment(payload);
+    try {
+      const response = await BTQService.saveAssessment(payload);
 
-    if (!response.success) {
-      console.error(response.message);
+      if (!response.success) {
+        Toast.error(response.message);
+
+        return;
+      }
+
+      updateStudentState(response.data.student);
+
+      BottomSheet.close();
+
+      renderStudents();
+
+      Toast.success(response.message);
+    } catch (error) {
+      Toast.error(error.message);
+    }
+  }
+
+  /**
+   * ============================================================
+   * SUBMIT PENILAIAN
+   * ============================================================
+   */
+
+  let isSaving = false;
+
+  async function submitAssessment() {
+    if (isSaving) {
       return;
     }
 
-    await loadStudents(state.selectedSchedule.classId);
+    const workspace = State.get("workspace");
 
-    showStudents();
+    const btnSave = document.querySelector("#btq-save");
+
+    try {
+      isSaving = true;
+
+      if (btnSave) {
+        btnSave.disabled = true;
+
+        btnSave.textContent = "Menyimpan...";
+      }
+
+      const payload = {
+        transactionId: state.selectedStudent.transactionId,
+
+        teacherId: workspace.teacher.id,
+
+        classId: state.selectedSchedule.classId,
+
+        studentId: state.selectedStudent.id,
+
+        targetId: state.selectedStudent.btqTargetId,
+
+        page: state.selectedStudent.btqPage,
+
+        fashohah: state.assessment.fashohah.star,
+
+        tajwid: state.assessment.tajwid.star,
+
+        wazan: state.assessment.wazan.star,
+
+        note: document.querySelector("#btq-note")?.value || "",
+      };
+
+      await saveAssessment(payload);
+    } finally {
+      isSaving = false;
+
+      if (btnSave) {
+        btnSave.disabled = false;
+
+        btnSave.textContent = "Simpan";
+      }
+    }
   }
 
   /**
@@ -305,18 +508,12 @@ const BTQ = (() => {
    */
 
   function renderStudents() {
-    const body = document.querySelector("#btq-body");
+    document.querySelector("#btq-student-list").innerHTML =
+      window.BTQView.renderStudentList(state.filteredStudents);
 
-    if (!body) return;
-
-    body.innerHTML = window.BTQView.renderStudentList(state.studentList);
+    document.querySelector("#btq-student-footer").innerHTML =
+      window.BTQView.renderStudentFooter(state.filteredStudents);
   }
-
-  /**
-   * ============================================================
-   * MODAL PENILAIAN
-   * ============================================================
-   */
 
   /**
    * ============================================================
@@ -328,24 +525,39 @@ const BTQ = (() => {
     BottomSheet.open({
       title: "Penilaian BTQ",
 
-      content: window.BTQView.renderAssessmentModal(state.selectedStudent),
+      content: window.BTQView.renderAssessmentModal(
+        state.selectedStudent,
+        state.assessment,
+      ),
 
       footer: `
-      <button
-        class="qedev-button">
 
-        Batal
+      <button
+          id="btq-cancel"
+          class="qedev-button">
+
+          Batal
 
       </button>
 
       <button
-        class="qedev-button qedev-button-primary">
+          id="btq-save"
+          class="qedev-button qedev-button-primary">
 
-        Simpan
+          Simpan
 
       </button>
-    `,
+
+      `,
     });
+
+    const btnSave = document.querySelector("#btq-save");
+
+    btnSave?.addEventListener("click", submitAssessment);
+
+    const btnCancel = document.querySelector("#btq-cancel");
+
+    btnCancel?.addEventListener("click", () => BottomSheet.close());
     renderAssessmentSummary();
   }
 
@@ -383,26 +595,6 @@ const BTQ = (() => {
     if (!element) return;
 
     element.textContent = state.assessment[field].score;
-  }
-
-  function updateAssessment(field, star) {
-    BTQHelper.updateItem(
-      state.assessment,
-
-      field,
-
-      star,
-    );
-
-    BTQHelper.updateResult(
-      state.assessment,
-
-      state.masterPredikat,
-    );
-
-    console.log(state.assessment);
-
-    renderAssessmentSummary();
   }
 
   function updateAssessment(field, star) {

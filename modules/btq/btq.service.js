@@ -9,43 +9,43 @@
 
 const BTQService = {
   /**
-   * Ambil Jadwal Hari Ini
+   * Workspace
    */
-  async getScheduleToday() {
-    try {
-      const data = DummyBTQ.getScheduleToday();
-
-      return {
-        success: true,
-        message: "Berhasil mengambil jadwal.",
-        data: data,
-      };
-    } catch (error) {
-      return {
-        success: false,
-        message: error.message,
-        data: [],
-      };
-    }
+  getWorkspace() {
+    return State.get("workspace") || {};
   },
 
   /**
-   * Ambil Daftar Santri
+   * Ambil Jadwal Hari Ini
    */
-  async getStudentsByClass(classId) {
-    try {
-      const data = DummyBTQ.getStudentsByClass(classId);
+  async getScheduleToday() {
+    const workspace = this.getWorkspace();
 
-      return {
-        success: true,
-        message: "Berhasil mengambil santri.",
-        data: data,
-      };
+    return {
+      success: true,
+
+      message: "Berhasil mengambil jadwal.",
+
+      data: workspace.schedules || [],
+    };
+  },
+
+  async getAssessment(transactionId) {
+    try {
+      return await API.post(
+        "btq.assessment",
+
+        {
+          transactionId,
+        },
+      );
     } catch (error) {
       return {
         success: false,
+
         message: error.message,
-        data: [],
+
+        data: null,
       };
     }
   },
@@ -54,19 +54,21 @@ const BTQService = {
    * Simpan Penilaian
    * (sementara dummy)
    */
+  /**
+   * ============================================================
+   * Simpan Penilaian
+   * ============================================================
+   */
+
   async saveAssessment(payload) {
     try {
-      console.log("Assessment Payload", payload);
-
-      return {
-        success: true,
-        message: "Penilaian berhasil disimpan.",
-        data: payload,
-      };
+      return await API.post("btq.save", payload);
     } catch (error) {
       return {
         success: false,
+
         message: error.message,
+
         data: null,
       };
     }

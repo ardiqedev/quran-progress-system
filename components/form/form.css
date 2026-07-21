@@ -46,6 +46,50 @@
   border-color: var(--color-primary);
 }
 
+.qedev-input-wrapper {
+  position: relative;
+}
+
+.qedev-input-wrapper .qedev-input {
+  padding-right: 46px;
+}
+
+.qedev-input-wrapper .qedev-input {
+  padding-right: 46px;
+}
+
+.qedev-input-toggle {
+  position: absolute;
+
+  top: 50%;
+  right: 12px;
+
+  transform: translateY(-50%);
+
+  width: 32px;
+  height: 32px;
+
+  border: none;
+
+  background: transparent;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  cursor: pointer;
+
+  color: var(--color-text-light);
+
+  transition: var(--transition-fast);
+}
+
+.qedev-input-toggle:hover {
+  color: var(--color-primary);
+}
+
 .qedev-checkbox,
 .qedev-radio {
   display: flex;

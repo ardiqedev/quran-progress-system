@@ -2,7 +2,7 @@
  * ============================================================
  * QEDEV Framework
  * Quran Progress System (QPS)
- * Module :   Tahfidz
+ * Module : BTQ
  * View
  * ============================================================
  */
@@ -146,110 +146,66 @@ class TahfidzView {
   }
 
   renderScheduleItem(schedule) {
-    const progress = Math.round(
-      (schedule.assessedStudents / schedule.totalStudents) * 100,
-    );
-
-    let status = "Belum Dimulai";
-
-    if (
-      schedule.assessedStudents > 0 &&
-      schedule.assessedStudents < schedule.totalStudents
-    ) {
-      status = "Sedang Berjalan";
-    }
-
-    if (schedule.assessedStudents === schedule.totalStudents) {
-      status = "Selesai";
-    }
-
     return `
     <div
-      class="btq-schedule-card"
-      data-class-id="${schedule.classId}">
+        class="btq-schedule-card"
+        data-class-id="${schedule.classId}">
 
-      <div class="btq-schedule-top">
+        <div class="btq-schedule-top">
 
-        <div class="btq-schedule-title">
+            <div class="btq-schedule-title">
 
-          <div class="btq-schedule-icon">
+                <div class="btq-schedule-icon">
 
-            📖
+                    📖
 
-          </div>
+                </div>
 
-          <div>
+                <div>
 
-            <div class="btq-schedule-class">
+                    <div class="btq-schedule-class">
 
-              ${schedule.className}
+                        ${schedule.className}
+
+                    </div>
+
+                    <div class="btq-schedule-time">
+
+                        ${schedule.startTime} - ${schedule.endTime}
+
+                    </div>
+
+                </div>
 
             </div>
 
-            <div class="btq-schedule-time">
+            <div class="btq-schedule-progress">
 
-              ${schedule.startTime} - ${schedule.endTime}
+                ${schedule.assessedStudents} / ${schedule.totalStudents}
 
             </div>
 
-          </div>
-
         </div>
 
-        <div class="btq-schedule-progress">
+        <div class="btq-schedule-footer">
 
-          ${schedule.assessedStudents}
-          /
-          ${schedule.totalStudents}
+            <div class="btq-schedule-students">
 
-        </div>
+                👨‍🎓 ${schedule.totalStudents} Santri
 
-      </div>
+            </div>
 
-      <div class="btq-schedule-middle">
+            <div class="btq-schedule-arrow">
 
-        <div class="btq-schedule-students">
+                <i class="fa-solid fa-chevron-right"></i>
 
-          👨‍🎓
-          ${schedule.totalStudents} Santri
+            </div>
 
         </div>
-
-        <div class="btq-schedule-status">
-
-          ${status}
-
-        </div>
-
-      </div>
-
-      <div class="btq-schedule-footer">
-
-        <div class="btq-progress">
-
-          <div
-            class="btq-progress-bar"
-            style="width:${progress}%">
-          </div>
-
-        </div>
-
-        <div class="btq-schedule-arrow">
-
-          <i class="fa-solid fa-chevron-right"></i>
-
-        </div>
-
-      </div>
 
     </div>
-  `;
+    `;
   }
-  /**
-   * ============================================================
-   * STUDENT
-   * ============================================================
-   */
 
   /**
    * ============================================================
@@ -266,9 +222,17 @@ class TahfidzView {
 
             ${this.renderStudentSearch()}
 
-            ${this.renderStudentList(students)}
+            <div id="btq-student-list">
 
-            ${this.renderStudentFooter(students)}
+                ${this.renderStudentList(students)}
+
+            </div>
+
+            <div id="btq-student-footer">
+
+                ${this.renderStudentFooter(students)}
+
+            </div>
 
         </section>
 
@@ -327,17 +291,18 @@ class TahfidzView {
   renderStudentSearch() {
     return `
 
-        <div class="btq-search">
+    <div class="btq-search">
 
-            <i class="fa-solid fa-magnifying-glass"></i>
+        <i class="fa-solid fa-magnifying-glass"></i>
 
-            <input
-                type="text"
-                placeholder="Cari nama santri...">
+        <input
+            id="btq-search"
+            type="text"
+            placeholder="Cari nama santri...">
 
-        </div>
+    </div>
 
-    `;
+  `;
   }
 
   renderStudentList(students = []) {
@@ -345,14 +310,60 @@ class TahfidzView {
       return this.renderEmpty("Belum ada data santri.");
     }
 
+    const pending = students.filter((student) => !student.assessed);
+
+    const assessed = students.filter((student) => student.assessed);
+
     return `
+
         <section class="btq-student-list">
 
-            ${students
-              .map((student) => this.renderStudentItem(student))
-              .join("")}
+            ${
+              pending.length
+                ? `
+
+                <div class="btq-student-group-title">
+
+                    Belum Dinilai
+
+                </div>
+
+                ${pending
+                  .map((student) => this.renderStudentItem(student))
+                  .join("")}
+
+            `
+                : ""
+            }
+
+            ${
+              pending.length && assessed.length
+                ? `
+                <div class="btq-student-divider"></div>
+              `
+                : ""
+            }
+
+            ${
+              assessed.length
+                ? `
+
+                <div class="btq-student-group-title">
+
+                    Sudah Dinilai
+
+                </div>
+
+                ${assessed
+                  .map((student) => this.renderStudentItem(student))
+                  .join("")}
+
+            `
+                : ""
+            }
 
         </section>
+
     `;
   }
 
@@ -386,7 +397,7 @@ class TahfidzView {
                     <div class="btq-student-target">
 
                         Target :
-                        ${student.target}
+                        ${student.tahfidzTargetDisplay}
 
                     </div>
 
@@ -436,7 +447,7 @@ class TahfidzView {
    * ============================================================
    */
 
-  renderAssessmentModal(student) {
+  renderAssessmentModal(student, assessment) {
     return `
     <div class="btq-assessment">
 
@@ -460,74 +471,121 @@ class TahfidzView {
 
       </div>
 
-      <!-- =======================================
-           TARGET
-      ======================================== -->
 
-      <div class="btq-assessment-section">
-
-        <div class="btq-label">
-
-          Target
-
-        </div>
-
-        <div
-          id="btq-target"
-          class="btq-target">
-
-          ${student.target}
-
-        </div>
-
-      </div>
-
-      <div class="btq-assessment-section">
-
-        <div class="btq-label">
-
-          Halaman
-
-        </div>
-
-        <div
-          id="btq-page"
-          class="btq-target">
-
-          ${student.page}
-
-        </div>
-
-      </div>
 
       <!-- =======================================
-           FASHOHAH
-      ======================================== -->
+            TARGET HAFALAN
+        ======================================= -->
+
+        <div class="btq-assessment-section">
+
+            <div class="btq-label">
+
+                📖 Target Hafalan
+
+            </div>
+
+            <div class="btq-target">
+
+                Juz ${student.juz}
+
+            </div>
+
+            <div class="btq-target">
+
+                QS. ${student.surah}
+
+            </div>
+
+        </div>
+
+        <div class="btq-assessment-section">
+
+            <div class="btq-label">
+
+                Target
+
+            </div>
+
+            <div class="btq-target">
+
+                Ayat ${student.fromAyat} - ${student.toAyat}
+
+            </div>
+
+        </div>
+
+        <div class="btq-assessment-section">
+
+            <div class="btq-label">
+
+                Progress Terakhir
+
+            </div>
+
+            <div class="btq-target">
+
+                ${
+                  student.tahfidzCurrentAyat > 0
+                    ? `Ayat ${student.tahfidzCurrentAyat}`
+                    : "Belum ada"
+                }
+
+            </div>
+
+        </div>
+
+        <!-- =======================================
+            HARI INI SAMPAI AYAT
+        ======================================= -->
+
+        <div class="btq-assessment-section">
+
+            <div class="btq-label">
+
+                Hari Ini Sampai Ayat
+
+            </div>
+
+            <input
+                id="tahfidz-current-ayat"
+                class="qedev-input"
+                type="number"
+                min="${student.fromAyat}"
+                max="${student.toAyat}"
+                value="${student.tahfidzCurrentAyat || ""}"
+                placeholder="Masukkan ayat terakhir">
+
+        </div>
+
+      <!-- =======================================
+          FASHOHAH
+      ======================================= -->
 
       ${Rating.render({
         name: "fashohah",
         label: "Fashohah",
-        value: 5,
+        value: assessment.fashohah.star,
       })}
 
       <!-- =======================================
-           TAJWID
-      ======================================== -->
+          TAJWID
+      ======================================= -->
 
       ${Rating.render({
         name: "tajwid",
         label: "Tajwid",
-        value: 5,
+        value: assessment.tajwid.star,
       })}
 
       <!-- =======================================
-           WAZAN
-      ======================================== -->
+          WAZAN
+      ======================================= -->
 
       ${Rating.render({
         name: "wazan",
         label: "Wazan",
-        value: 5,
+        value: assessment.wazan.star,
       })}
 
 
@@ -547,7 +605,7 @@ class TahfidzView {
             id="btq-average"
             class="qedev-result-score">
 
-            100
+            ${assessment.average}
 
         </div>
 
@@ -557,7 +615,7 @@ class TahfidzView {
                 id="btq-grade"
                 class="qedev-result-badge">
 
-                A
+                ${assessment.grade}
 
             </div>
 
@@ -567,7 +625,7 @@ class TahfidzView {
             id="btq-description"
             class="qedev-result-description">
 
-            Mumtaz
+            ${assessment.description}
 
         </div>
 
@@ -591,7 +649,7 @@ class TahfidzView {
           id="btq-note"
           class="btq-note"
           rows="4"
-          placeholder="Tambahkan catatan..."></textarea>
+          placeholder="Tambahkan catatan...">${assessment.note || ""}</textarea>
 
       </div>
 
@@ -617,4 +675,3 @@ class TahfidzView {
 }
 
 window.TahfidzView = new TahfidzView();
-console.log(Object.getOwnPropertyNames(TahfidzView.prototype));

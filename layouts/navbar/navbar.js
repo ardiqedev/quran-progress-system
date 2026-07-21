@@ -14,13 +14,13 @@ const Navbar = (() => {
       <nav class="qedev-navbar-container">
 
         <button
-          class="qedev-navbar-item active"
-          data-route="dashboard"
-          type="button">
+            class="qedev-navbar-item"
+            data-route="home"
+            type="button">
 
-          <i class="fa-solid fa-house"></i>
+            <i class="fa-solid fa-house"></i>
 
-          <span>Home</span>
+            <span>Home</span>
 
         </button>
 
@@ -39,8 +39,59 @@ const Navbar = (() => {
     `;
   }
 
+  /**
+   * ==========================================
+   * Handle Logout
+   * ==========================================
+   */
+  function handleLogout() {
+    Auth.logout();
+
+    Toast.success("Berhasil keluar.");
+
+    Router.navigate("login");
+  }
+
+  /**
+   * Bind Events
+   */
+  function bindEvents() {
+    document.querySelectorAll(".qedev-navbar-item").forEach((item) => {
+      item.addEventListener("click", () => {
+        const route = item.dataset.route;
+
+        if (route === "logout") {
+          handleLogout();
+
+          return;
+        }
+
+        Router.navigate(route);
+      });
+    });
+  }
+
+  /**
+   * ==========================================
+   * Update Active Menu
+   * ==========================================
+   */
+  function updateActive() {
+    const currentRoute = Router.current();
+
+    document.querySelectorAll(".qedev-navbar-item").forEach((item) => {
+      item.classList.remove("active");
+
+      if (item.dataset.route === currentRoute) {
+        item.classList.add("active");
+      }
+    });
+  }
+
   return {
     render,
+    bindEvents,
+    updateActive,
   };
 })();
 

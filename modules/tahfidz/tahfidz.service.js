@@ -9,43 +9,39 @@
 
 const TahfidzService = {
   /**
-   * Ambil Jadwal Hari Ini
+   * Workspace
    */
-  async getScheduleToday() {
-    try {
-      const data = DummyTahfidz.getScheduleToday();
-
-      return {
-        success: true,
-        message: "Berhasil mengambil jadwal.",
-        data: data,
-      };
-    } catch (error) {
-      return {
-        success: false,
-        message: error.message,
-        data: [],
-      };
-    }
+  getWorkspace() {
+    return State.get("workspace") || {};
   },
 
   /**
-   * Ambil Daftar Santri
+   * Ambil Jadwal Hari Ini
    */
-  async getStudentsByClass(classId) {
-    try {
-      const data = DummyTahfidz.getStudentsByClass(classId);
+  async getScheduleToday() {
+    const workspace = this.getWorkspace();
 
-      return {
-        success: true,
-        message: "Berhasil mengambil santri.",
-        data: data,
-      };
+    return {
+      success: true,
+
+      message: "Berhasil mengambil jadwal.",
+
+      data: workspace.schedules || [],
+    };
+  },
+
+  async getAssessment(transactionId) {
+    try {
+      return await API.post("tahfidz.assessment", {
+        transactionId,
+      });
     } catch (error) {
       return {
         success: false,
+
         message: error.message,
-        data: [],
+
+        data: null,
       };
     }
   },
@@ -54,19 +50,21 @@ const TahfidzService = {
    * Simpan Penilaian
    * (sementara dummy)
    */
+  /**
+   * ============================================================
+   * Simpan Penilaian
+   * ============================================================
+   */
+
   async saveAssessment(payload) {
     try {
-      console.log("Assessment Payload", payload);
-
-      return {
-        success: true,
-        message: "Penilaian berhasil disimpan.",
-        data: payload,
-      };
+      return await API.post("tahfidz.save", payload);
     } catch (error) {
       return {
         success: false,
+
         message: error.message,
+
         data: null,
       };
     }
@@ -119,7 +117,7 @@ const TahfidzService = {
    */
   async getMasterTarget() {
     try {
-      const data = DummyTarget.getTarget();
+      const data = DummyTargetTahfidz.getTarget();
 
       return {
         success: true,

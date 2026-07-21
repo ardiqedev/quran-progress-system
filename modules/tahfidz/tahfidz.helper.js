@@ -67,16 +67,6 @@ const TahfidzHelper = (() => {
       assessment.tajwid.score +
       assessment.wazan.score;
 
-    console.log(
-      assessment.fashohah.score,
-      assessment.tajwid.score,
-      assessment.wazan.score,
-    );
-
-    console.log(total);
-
-    console.log(Math.round(total / 3));
-
     return Math.round(total / 3);
   }
 
@@ -124,7 +114,7 @@ const TahfidzHelper = (() => {
     return {
       studentId: student.id,
 
-      targetId: student.targetId,
+      targetId: student.tahfidzTargetId,
 
       fashohah: assessment.fashohah.score,
 

@@ -95,6 +95,31 @@ const API = (() => {
 
       const response = await fetch(url, options);
 
+      const text = await response.text();
+
+      if (CONFIG.DEBUG) {
+        console.log("[API] RAW RESPONSE:");
+        console.log(text);
+      }
+
+      if (!response.ok) {
+        return {
+          success: false,
+          message: `HTTP Error (${response.status})`,
+          data: null,
+        };
+      }
+
+      const result = JSON.parse(text);
+
+      return result;
+
+      if (CONFIG.DEBUG) {
+        console.log("[API] RESPONSE :", result);
+      }
+
+      return result;
+
       if (!response.ok) {
         return {
           success: false,

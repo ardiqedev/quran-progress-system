@@ -12,40 +12,98 @@ const Router = (() => {
   let currentRoute = CONFIG.DEFAULT_ROUTE;
 
   /**
-   * Get Module
+   * Route Configuration
    */
+  const routes = {
+    login: {
+      module: "Login",
+      layout: {
+        header: false,
+        navbar: false,
+      },
+    },
 
-  function getModule(route) {
-    const modules = {
-      home: window.Home,
-      btq: window.BTQ,
-      tahfidz: window.Tahfidz,
-    };
+    home: {
+      module: "Home",
+      layout: {
+        header: true,
+        navbar: true,
+      },
+    },
 
-    return modules[route] || null;
-  }
+    btq: {
+      module: "BTQ",
+      layout: {
+        header: true,
+        navbar: true,
+      },
+    },
+
+    tahfidz: {
+      module: "Tahfidz",
+      layout: {
+        header: true,
+        navbar: true,
+      },
+    },
+
+    rekap: {
+      module: "Rekap",
+      layout: {
+        header: true,
+        navbar: true,
+      },
+    },
+  };
 
   /**
    * Navigate
    */
   function navigate(route = CONFIG.DEFAULT_ROUTE) {
-    const module = getModule(route);
+    const config = routes[route];
+
+    if (!config) {
+      Layout.init({
+        header: false,
+        navbar: false,
+      });
+
+      Layout.setContent(`
+      <div class="qedev-empty">
+        Module "${route}" tidak ditemukan.
+      </div>
+    `);
+
+      return;
+    }
+
+    // Ambil module dari window
+    const module = window[config.module];
 
     if (!module || typeof module.init !== "function") {
+      Layout.init({
+        header: false,
+        navbar: false,
+      });
+
       Layout.setContent(`
-        <div class="qedev-empty">
-          Module "${route}" tidak ditemukan.
-        </div>
-      `);
+      <div class="qedev-empty">
+        Module "${route}" tidak ditemukan.
+      </div>
+    `);
 
       return;
     }
 
     currentRoute = route;
 
+    Layout.init(config.layout);
+
+    Loading.init();
+    Toast.init();
+
     module.init();
   }
-
   /**
    * Initialize Router
    */
@@ -54,7 +112,7 @@ const Router = (() => {
   }
 
   /**
-   * Get Current Route
+   * Current Route
    */
   function current() {
     return currentRoute;
@@ -62,9 +120,7 @@ const Router = (() => {
 
   return {
     init,
-
     navigate,
-
     current,
   };
 })();

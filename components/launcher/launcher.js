@@ -6,6 +6,27 @@
  */
 
 const Launcher = (() => {
+  const AVAILABLE_ROUTES = ["btq", "tahfidz", "rekap"];
+
+  /**
+   * ==========================================
+   * Navigate
+   * ==========================================
+   */
+  function navigate(route) {
+    if (!AVAILABLE_ROUTES.includes(route)) {
+      Toast.comingSoon();
+      return;
+    }
+
+    Router.navigate(route);
+  }
+
+  /**
+   * ==========================================
+   * Bind Events
+   * ==========================================
+   */
   function bindEvents() {
     document.addEventListener("click", (event) => {
       const item = event.target.closest(".qedev-launcher-item");
@@ -16,9 +37,10 @@ const Launcher = (() => {
 
       if (!route) return;
 
-      Router.navigate(route);
+      navigate(route);
     });
   }
+
   /**
    * Render Grid
    */

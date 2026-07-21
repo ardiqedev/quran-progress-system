@@ -206,7 +206,7 @@ const HomeView = (() => {
 
         <i class="fa-regular fa-user"></i>
 
-        ${item.totalStudents ?? 0} Santri
+        ${item.totalStudents ?? 0} 
 
       </div>
 
@@ -219,37 +219,42 @@ const HomeView = (() => {
    * Schedule Summary
    * ==========================================
    */
-  function renderScheduleSummary(data) {
-    const summary = data?.summary || {};
-
+  function renderScheduleSummary(summary = {}) {
     return `
     <div class="qedev-schedule-summary">
 
-      <div class="qedev-schedule-total">
+      <div class="qedev-summary-item">
 
-        Total Kelas : ${summary.totalClass ?? 0}
+        <div class="qedev-summary-label">
+          Total Kelas
+        </div>
 
-        <br>
+        <div class="qedev-summary-value">
+          ${summary.totalClass ?? 0}
+        </div>
 
-        Total Santri : ${summary.totalStudents ?? 0}
+      </div>
+
+      <div class="qedev-summary-item">
+
+        <div class="qedev-summary-label">
+          Total Santri
+        </div>
+
+        <div class="qedev-summary-value">
+          ${summary.totalStudents ?? 0}
+        </div>
 
       </div>
 
       <div class="qedev-schedule-book">
-
         <i class="fa-solid fa-book-quran"></i>
-
       </div>
 
     </div>
   `;
   }
 
-  /**
-   * ==========================================
-   * Activity
-   * ==========================================
-   */
   /**
    * ==========================================
    * Activity
@@ -290,7 +295,7 @@ const HomeView = (() => {
     })}
 
     ${Launcher.renderItem({
-      icon: "assets/icons/tahfidz.png",
+      icon: "assets/icons/icon-tahfidz.png",
 
       color: "primary",
 
@@ -313,7 +318,7 @@ const HomeView = (() => {
    */
   function renderReport() {
     return renderHomeSection({
-      icon: "assets/icons/report.svg",
+      icon: "fa-solid fa-chart-column",
 
       title: "Laporan",
 
@@ -332,7 +337,7 @@ const HomeView = (() => {
     return Launcher.renderGrid(`
 
     ${Launcher.renderItem({
-      icon: "assets/icons/report.svg",
+      icon: "assets/icons/icon-rekap.png",
 
       color: "warning",
 
@@ -341,10 +346,12 @@ const HomeView = (() => {
       subtitle: "Rekap Harian",
 
       description: "dan Bulanan",
+
+      route: "rekap",
     })}
 
     ${Launcher.renderItem({
-      icon: "assets/icons/achievement.svg",
+      icon: "assets/icons/icon-report.png",
 
       color: "secondary",
 
@@ -353,6 +360,8 @@ const HomeView = (() => {
       subtitle: "Perkembangan Santri",
 
       description: "dan Cetak Laporan",
+
+      route: "hasil",
     })}
 
   `);
@@ -365,7 +374,7 @@ const HomeView = (() => {
    */
   function renderReference() {
     return renderHomeSection({
-      icon: "assets/icons/reference.svg",
+      icon: "fa-solid fa-book-quran",
 
       title: "Referensi",
 
@@ -384,7 +393,7 @@ const HomeView = (() => {
     return Launcher.renderGrid(`
 
     ${Launcher.renderItem({
-      icon: "assets/icons/target.svg",
+      icon: "assets/icons/icon-target.png",
 
       color: "info",
 
@@ -393,10 +402,12 @@ const HomeView = (() => {
       subtitle: "Target BTQ &",
 
       description: "Tahfidz Kelas",
+
+      route: "target",
     })}
 
     ${Launcher.renderItem({
-      icon: "assets/icons/profile.svg",
+      icon: "assets/icons/icon-profil.png",
 
       color: "accent",
 
@@ -405,18 +416,10 @@ const HomeView = (() => {
       subtitle: "Informasi Akun",
 
       description: "Guru",
+      route: "profile",
     })}
 
   `);
-  }
-
-  /**
-   * ==========================================
-   * Reference
-   * ==========================================
-   */
-  function renderReference() {
-    return "";
   }
 
   return {

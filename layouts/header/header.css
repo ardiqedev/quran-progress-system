@@ -32,7 +32,7 @@
 
   background: var(--header-background);
 
-  z-index: var(--z-sticky);
+  z-index: var(--z-header);
 
   transition: var(--transition-fast);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);

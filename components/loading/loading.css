@@ -17,7 +17,11 @@
   justify-content: center;
   align-items: center;
 
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(0, 0, 0, 0.35);
+
+  backdrop-filter: blur(3px);
+
+  -webkit-backdrop-filter: blur(3px);
 
   z-index: var(--z-loading);
 
@@ -45,6 +49,7 @@
   box-shadow: var(--shadow-lg);
 
   animation: scaleIn var(--transition-normal);
+  border: 1px solid var(--color-border);
 }
 
 /* ==========================================
@@ -74,6 +79,16 @@
   color: var(--color-text);
 
   text-align: center;
+}
+
+.qedev-loading-subtitle {
+  margin-top: -8px;
+
+  font-size: 12px;
+
+  text-align: center;
+
+  color: var(--color-text-secondary);
 }
 
 /* ==========================================

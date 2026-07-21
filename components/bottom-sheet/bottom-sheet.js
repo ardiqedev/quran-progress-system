@@ -9,6 +9,8 @@ const BottomSheet = (() => {
   /**
    * Overlay Element
    */
+
+  let loading = false;
   let overlay = null;
 
   /**
@@ -112,20 +114,49 @@ const BottomSheet = (() => {
   /**
    * Close
    */
+
   function close() {
     if (!overlay) return;
+
+    if (loading) return;
 
     overlay.classList.remove("show");
 
     document.body.style.overflow = "";
+
+    setTimeout(reset, 250);
+  }
+
+  /**
+   * Reset Bottom Sheet
+   */
+  function reset() {
+    if (!overlay) return;
+
+    overlay.querySelector(".qedev-bottom-sheet-title").innerHTML = "";
+
+    overlay.querySelector(".qedev-bottom-sheet-body").innerHTML = "";
+
+    const footer = overlay.querySelector(".qedev-bottom-sheet-footer");
+
+    footer.innerHTML = "";
+
+    footer.style.display = "none";
+
+    loading = false;
+
+    overlay.classList.remove("is-loading");
   }
 
   /**
    * Destroy
    * (Opsional jika suatu saat diperlukan)
    */
+
   function destroy() {
     if (!overlay) return;
+
+    loading = false;
 
     overlay.remove();
 
@@ -148,8 +179,23 @@ const BottomSheet = (() => {
 
     destroy,
 
+    reset,
+
+    setLoading,
+
     isOpen,
   };
+
+  /**
+   * Loading State
+   */
+  function setLoading(isLoading = true) {
+    if (!overlay) return;
+
+    loading = isLoading;
+
+    overlay.classList.toggle("is-loading", isLoading);
+  }
 })();
 
 window.BottomSheet = BottomSheet;

@@ -31,22 +31,63 @@ const Form = (() => {
     }
   }
 
+  function init() {
+    document.addEventListener("click", handleTogglePassword);
+  }
+
+  function handleTogglePassword(event) {
+    const button = event.target.closest(".qedev-input-toggle");
+
+    if (!button) return;
+
+    const wrapper = button.closest(".qedev-input-wrapper");
+
+    const input = wrapper.querySelector(".qedev-input");
+
+    const icon = button.querySelector("i");
+
+    const show = input.type === "password";
+
+    input.type = show ? "text" : "password";
+
+    icon.className = show ? "fa-regular fa-eye-slash" : "fa-regular fa-eye";
+  }
+
   function input(options = {}) {
     return `
       <div class="qedev-form-group">
 
-        ${label(options)}
+  ${label(options)}
 
-        <input
-          type="${options.type || "text"}"
-          name="${options.name || ""}"
-          value="${options.value || ""}"
-          placeholder="${options.placeholder || ""}"
-          class="qedev-input"
-          ${required(options)}
-        >
+        <div class="qedev-input-wrapper">
 
-      </div>
+            <input
+              id="${options.id || options.name || ""}"
+              type="${options.type || "text"}"
+              name="${options.name || ""}"
+              value="${options.value || ""}"
+              placeholder="${options.placeholder || ""}"
+              class="qedev-input"
+              ${required(options)}
+            >
+
+            ${
+              options.type === "password"
+                ? `
+                <button
+                  type="button"
+                  class="qedev-input-toggle">
+
+                  <i class="fa-regular fa-eye"></i>
+
+                </button>
+              `
+                : ""
+            }
+
+          </div>
+
+        </div>
     `;
   }
 
@@ -147,7 +188,7 @@ const Form = (() => {
 
   return {
     render,
-
+    init,
     input(options) {
       return render("input", options);
     },
